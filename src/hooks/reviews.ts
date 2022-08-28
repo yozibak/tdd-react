@@ -13,7 +13,7 @@ export const useReviews = () => {
 
   useEffect(() => {
     fetchReviews()
-  })
+  }, [])
 
   const submitReview = async (payload: Review) => {
     const newReview = payload
