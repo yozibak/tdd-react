@@ -1,7 +1,10 @@
 
-
 export const sumArr = (arr: number[]) => {
   return arr.reduce((a,b) => a + b, 0)
+}
+
+export const avg = (arr: number[]) => {
+  return Math.floor(sumArr(arr) / arr.length)
 }
 
 export const validateForm = (payload: Review) => {
@@ -17,3 +20,4 @@ export const validateForm = (payload: Review) => {
   }
   return true
 }
+

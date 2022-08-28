@@ -11,7 +11,7 @@ const initialState: Review = {
 
 function App() {
 
-  const { loading, reviews, submitReview } = useReviews()
+  const { loading, reviews, averageScore, submitReview } = useReviews()
 
   const [formState, setFormState] = useState(initialState)
 
@@ -39,6 +39,7 @@ function App() {
     }
   }
 
+  if (loading) return <div>Loading...</div>
   return (
     <div className="App">
       <div className="page-title">
@@ -47,7 +48,8 @@ function App() {
 
       <div>
         Please submit your review. <br />
-        {!loading ? `Current reviews: ${reviews.length}` : ``}
+        Current reviews: {reviews.length}<br />
+        Avg. Score: {averageScore}
       </div>
 
       <form onSubmit={onSubmit}>

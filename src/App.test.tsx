@@ -19,6 +19,7 @@ describe("UI test", () => {
   const mockUseReview: ReturnType<typeof review.useReviews> = {
     loading: false,
     reviews: mockReviews,
+    averageScore: 60,
     submitReview: submitFn
   }
 
@@ -166,6 +167,12 @@ describe("UI test", () => {
       expect(windowAlert).toHaveBeenCalledWith(`Please enter comment in less than 400 characters`)
       expect(submitFn).not.toHaveBeenCalled()
     })
+  })
+
+  it("should show average score", () => {
+    render(<App />)
+    const avg = screen.getByText(/Avg. Score: 60/)
+    expect(avg).toBeInTheDocument()
   })
 })
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { avg } from '../module/domain'
 import API from '../module/api'
 
 export const useReviews = () => {
@@ -24,9 +25,15 @@ export const useReviews = () => {
     }
   }
 
+  const [averageScore, setAverageScore] = useState<number>()
+  useEffect(() => {
+    setAverageScore(avg(reviews.map(r => r.score)))
+  }, [reviews])
+
   return {
     loading,
     reviews,
+    averageScore,
     submitReview,
   }
 }
