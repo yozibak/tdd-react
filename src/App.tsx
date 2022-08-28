@@ -1,24 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
+import API from './module/api'
 import './App.css';
 
+const initialState = {
+  title: '',
+  score: '0',
+  comment: '',
+} as const
+
 function App() {
+
+  const [formState, setFormState] = useState(initialState)
+
+  const onChange = (e: ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) => {
+    setFormState({...formState, [e.currentTarget.name]: e.currentTarget.value})
+  }
+
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    const res = await API.submit(formState)
+    if (res.status === 200) {
+      window.alert('Successfully submitted. Thank you!')
+    }
+    setFormState(initialState)
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="page-title">
+        Product Review Form
+      </div>
+
+      <form onSubmit={onSubmit}>
+        <label htmlFor="title">Title</label>
+        <input 
+          name="title"
+          type="text"
+          value={formState.title}
+          onChange={onChange}
+        />
+
+        <label htmlFor="score">Score</label>
+        <input 
+          name="score" 
+          type="number"
+          value={formState.score}
+          onChange={onChange}
+        />
+
+        <label htmlFor="comment">Comment</label>
+        <textarea 
+          name="comment" 
+          rows={5}
+          value={formState.comment}
+          onChange={onChange}
+        />
+
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
