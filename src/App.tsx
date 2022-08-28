@@ -45,6 +45,7 @@ function App() {
       <form onSubmit={onSubmit}>
         <label htmlFor="title">Title</label>
         <input 
+          id="title"
           name="title"
           type="text"
           value={formState.title}
@@ -53,6 +54,7 @@ function App() {
 
         <label htmlFor="score">Score</label>
         <input 
+          id="score"
           name="score" 
           type="number"
           value={formState.score}
@@ -61,6 +63,7 @@ function App() {
 
         <label htmlFor="comment">Comment</label>
         <textarea 
+          id="comment"
           name="comment" 
           rows={5}
           value={formState.comment}
