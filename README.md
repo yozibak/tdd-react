@@ -2,6 +2,8 @@
 
 This small repo is to demonstrate how testing/TDD works in React project.
 
+You can read detailed instructions here: [https://yozibak.com/tdd-test-driven-development-basics-tutorial-with-typescriptreact](https://yozibak.com/tdd-test-driven-development-basics-tutorial-with-typescriptreact)
+
 ## Exercise 1 - Basics of Jest
 
 1. **Write sumArr() function that returns the sum of incoming array of int.**
