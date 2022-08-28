@@ -89,6 +89,83 @@ describe("UI test", () => {
     expect(commentInput).toHaveValue('')
   })
 
-  
+  describe("validate input character length on form submission", () => {
+
+    let windowAlert: jest.Mock
+
+    beforeEach(() => {
+      windowAlert = jest.fn()
+      window.alert = windowAlert
+    })
+
+    const findInput = () => ({
+      title: screen.getByLabelText('Title'),
+      score: screen.getByLabelText('Score'),
+      comment: screen.getByLabelText('Comment'),
+    })
+
+    const payload:Review = {
+      title: 'title',
+      score: 0,
+      comment: 'comment'
+    }
+
+    const submitForm = async (form: ReturnType<typeof findInput>, payload: Review) => {
+      await act(async () => {
+        userEvent.type(form.title, payload.title)
+        userEvent.type(form.score, payload.score.toString())
+        userEvent.type(form.comment, payload.comment)
+        userEvent.click(screen.getByRole('button', {name: /submit/i}))
+      })
+    }
+
+    it("should accept < 50 characters on title", async () => {
+      // arrange
+      render(<App />)
+      const form = findInput()
+
+      // act
+      await submitForm(form, {
+        ...payload, 
+        title: 'X'.repeat(51) // > 50
+      })
+
+      // assert
+      expect(windowAlert).toHaveBeenCalledWith(`Please enter title in less than 50 characters`)
+      expect(submitFn).not.toHaveBeenCalled()
+    })
+
+    it("should accept points between 0 ~ 100 on score", async () => {
+      // arrange
+      render(<App />)
+      const form = findInput()
+
+      // act
+      await submitForm(form, {
+        ...payload, 
+        score: 120 // > 100
+      })
+
+      // assert
+      expect(windowAlert).toHaveBeenCalledWith(`Please enter score less than or equal to 100`)
+      expect(submitFn).not.toHaveBeenCalled()
+    })
+
+    it("should accept < 400 characters on comment", async () => {
+      // arrange
+      render(<App />)
+      const form = findInput()
+
+      // act
+      await submitForm(form, {
+        ...payload, 
+        comment: 'X'.repeat(401) // > 400
+      })
+
+      // assert
+      expect(windowAlert).toHaveBeenCalledWith(`Please enter comment in less than 400 characters`)
+      expect(submitFn).not.toHaveBeenCalled()
+    })
+  })
 })
 

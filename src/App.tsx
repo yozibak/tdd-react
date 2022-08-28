@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import './App.css';
 import { useReviews } from './hooks/reviews';
+import { validateForm } from './module/domain';
 
 const initialState: Review = {
   title: '',
@@ -24,7 +25,14 @@ function App() {
 
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
+
+    const isValid = validateForm(formState)
+    if (!isValid) {
+      return false
+    }
+
     const res = await submitReview(formState)
+
     if (res) {
       window.alert('Successfully submitted. Thank you!')
       setFormState(initialState)
